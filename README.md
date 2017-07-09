@@ -47,15 +47,19 @@ protected function createComponentMailerLiteForm(MailerLiteForm $mailerLite)
     //$mailerLiteForm->setTemplatePath(__DIR__.'/../../vendor/geniv/nette-mailerlite/src/MailerLiteForm.latte');
     $mailerLiteForm->onSuccess[] = function (array $values) {
         $this->flashMessage('Email has been save!', 'success');
+        $this->redirect('this');
     };
     $mailerLiteForm->onError[] = function ($error) {
         $this->flashMessage('Error! ' . $error->message, 'danger');
+        $this->redirect('this');
     };
     return $mailerLite;
 }
 ```
 
 usage:
+
+_0000000_ is id mailerlite group
 ```latte
 {control mailerLiteForm '0000000'}
 ```
