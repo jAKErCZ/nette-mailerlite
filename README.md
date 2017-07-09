@@ -40,15 +40,22 @@ extensions:
 
 usage:
 ```php
-use MailerLite\MailerLite;
+use MailerLite\MailerLiteForm;
 
-protected function createComponentMailerLite(MailerLite $mailerLite)
+protected function createComponentMailerLiteForm(MailerLiteForm $mailerLite)
 {
+    //$mailerLiteForm->setTemplatePath(__DIR__.'/../../vendor/geniv/nette-mailerlite/src/MailerLiteForm.latte');
+    $mailerLiteForm->onSuccess[] = function (array $values) {
+        $this->flashMessage('Email has been save!', 'success');
+    };
+    $mailerLiteForm->onError[] = function ($error) {
+        $this->flashMessage('Error! ' . $error->message, 'danger');
+    };
     return $mailerLite;
 }
 ```
 
 usage:
 ```latte
-{control mailerLite '0000000'}
+{control mailerLiteForm '0000000'}
 ```

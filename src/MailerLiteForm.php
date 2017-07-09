@@ -23,6 +23,8 @@ class MailerLiteForm extends Control
     private $templatePath;
     /** @var Translator class */
     private $translator;
+    /** @var callback method */
+    public $onSuccess, $onError;
 
 
     /**
@@ -38,7 +40,7 @@ class MailerLiteForm extends Control
         $this->translator = $translator;
         $this->templatePath = __DIR__ . '/MailerLiteForm.latte';    // implicit path
 
-        $this->groupsApi = (new MailerLiteForm($parameters['api']))->groups();
+        $this->groupsApi = (new MailerLite($parameters['api']))->groups();
     }
 
 
@@ -65,12 +67,12 @@ class MailerLiteForm extends Control
     {
         $form = new Form($this, $name);
         $form->setTranslator($this->translator);
-        $form->addText('email', 'Váš E-mail')
-            ->setRequired('Pole emailu musí být vyplněno.')
-            ->addRule(Form::EMAIL, 'Musí být zadaný validní email.')
+        $form->addText('email', 'mailer-lite-form-email')
+            ->setRequired('mailer-lite-form-email-reguired')
+            ->addRule(Form::EMAIL, 'mailer-lite-form-email-rule-email')
             ->setAttribute('autocomplete', 'off');
         $form->addHidden('groupId', $this->groupId);    // prenaseni id skupiny pro mailer lite
-        $form->addSubmit('send', 'Odeslat');
+        $form->addSubmit('send', 'mailer-lite-form-email-send');
 
         $form->onSuccess[] = function (Form $form, ArrayHash $values) {
             $subscriber = [
@@ -79,8 +81,8 @@ class MailerLiteForm extends Control
             $addedSubscriber = $this->groupsApi->addSubscriber($values['groupId'], $subscriber); // returns added subscriber
             if (!isset($addedSubscriber->error)) {
                 $this->onSuccess($values);
-                $this->parent->flashMessage($this->translator->translate('Váš email byl uložen.'), 'success');
-                $this->parent->redirect('//this');
+            } else {
+                $this->onError($addedSubscriber->error);
             }
         };
         return $form;
