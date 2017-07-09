@@ -23,6 +23,8 @@ class MailerLiteForm extends Control
     private $templatePath;
     /** @var Translator class */
     private $translator;
+    /** @var callback method */
+    public $onSuccess;
 
 
     /**
@@ -38,7 +40,7 @@ class MailerLiteForm extends Control
         $this->translator = $translator;
         $this->templatePath = __DIR__ . '/MailerLiteForm.latte';    // implicit path
 
-        $this->groupsApi = (new MailerLiteForm($parameters['api']))->groups();
+        $this->groupsApi = (new MailerLite($parameters['api']))->groups();
     }
 
 
@@ -79,8 +81,6 @@ class MailerLiteForm extends Control
             $addedSubscriber = $this->groupsApi->addSubscriber($values['groupId'], $subscriber); // returns added subscriber
             if (!isset($addedSubscriber->error)) {
                 $this->onSuccess($values);
-                $this->parent->flashMessage($this->translator->translate('Váš email byl uložen.'), 'success');
-                $this->parent->redirect('//this');
             }
         };
         return $form;
