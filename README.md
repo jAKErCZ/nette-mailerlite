@@ -48,6 +48,9 @@ protected function createComponentMailerLiteForm(MailerLiteForm $mailerLite)
     $mailerLiteForm->onSuccess[] = function (array $values) {
         $this->flashMessage('Email has been save!', 'success');
     };
+    $mailerLiteForm->onError[] = function ($error) {
+        $this->flashMessage('Error! ' . $error->message, 'danger');
+    };
     return $mailerLite;
 }
 ```

@@ -24,7 +24,7 @@ class MailerLiteForm extends Control
     /** @var Translator class */
     private $translator;
     /** @var callback method */
-    public $onSuccess;
+    public $onSuccess, $onError;
 
 
     /**
@@ -81,6 +81,8 @@ class MailerLiteForm extends Control
             $addedSubscriber = $this->groupsApi->addSubscriber($values['groupId'], $subscriber); // returns added subscriber
             if (!isset($addedSubscriber->error)) {
                 $this->onSuccess($values);
+            } else {
+                $this->onError($addedSubscriber->error);
             }
         };
         return $form;
