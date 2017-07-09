@@ -1,6 +1,6 @@
 Mailer lite
 ===========
-Newsletter MailerLite service
+Newsletter form MailerLite component
 
 www: https://www.mailerlite.com/
 
