@@ -6,7 +6,6 @@ use Nette\Application\UI\Form;
 use Nette\Localization\ITranslator;
 use Nette\Application\UI\Control;
 use MailerLiteApi\MailerLite;
-use Nette\Utils\ArrayHash;
 
 
 /**
@@ -74,7 +73,7 @@ class MailerLiteForm extends Control
         $form->addHidden('groupId', $this->groupId);    // prenaseni id skupiny pro mailer lite
         $form->addSubmit('send', 'mailer-lite-form-send');
 
-        $form->onSuccess[] = function (Form $form, ArrayHash $values) {
+        $form->onSuccess[] = function (Form $form, array $values) {
             $subscriber = [
                 'email' => $values['email'],
             ];
