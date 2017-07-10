@@ -1,6 +1,6 @@
 MailerLite
 ==========
-Newsletter form MailerLite component
+MailerLite newsletter form component
 
 www: https://www.mailerlite.com/
 
