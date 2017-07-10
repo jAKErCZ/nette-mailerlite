@@ -68,11 +68,11 @@ class MailerLiteForm extends Control
         $form = new Form($this, $name);
         $form->setTranslator($this->translator);
         $form->addText('email', 'mailer-lite-form-email')
-            ->setRequired('mailer-lite-form-email-reguired')
+            ->setRequired('mailer-lite-form-email-required')
             ->addRule(Form::EMAIL, 'mailer-lite-form-email-rule-email')
             ->setAttribute('autocomplete', 'off');
         $form->addHidden('groupId', $this->groupId);    // prenaseni id skupiny pro mailer lite
-        $form->addSubmit('send', 'mailer-lite-form-email-send');
+        $form->addSubmit('send', 'mailer-lite-form-send');
 
         $form->onSuccess[] = function (Form $form, ArrayHash $values) {
             $subscriber = [
