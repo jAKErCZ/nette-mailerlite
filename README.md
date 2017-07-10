@@ -1,6 +1,6 @@
-Mailer lite
-===========
-Newsletter MailerLite service
+MailerLite
+==========
+Newsletter form MailerLite component
 
 www: https://www.mailerlite.com/
 
@@ -42,9 +42,9 @@ usage:
 ```php
 use MailerLite\MailerLiteForm;
 
-protected function createComponentMailerLiteForm(MailerLiteForm $mailerLite)
+protected function createComponentMailerLiteForm(MailerLiteForm $mailerLiteForm)
 {
-    //$mailerLiteForm->setTemplatePath(__DIR__.'/../../vendor/geniv/nette-mailerlite/src/MailerLiteForm.latte');
+    //$mailerLiteForm->setTemplatePath(__DIR__ . '/templates/MailerLiteForm.latte');
     $mailerLiteForm->onSuccess[] = function (array $values) {
         $this->flashMessage('Email has been save!', 'success');
         $this->redirect('this');

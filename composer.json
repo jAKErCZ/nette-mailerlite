@@ -1,6 +1,6 @@
 {
   "name": "geniv/nette-mailerlite",
-  "description": "Newsletter MailerLite service for Nette Framework",
+  "description": "Newsletter form MailerLite component for Nette Framework",
   "keywords": [
     "nette",
     "newsletter",
