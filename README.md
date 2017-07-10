@@ -1,5 +1,5 @@
-Mailer lite
-===========
+MailerLite
+==========
 Newsletter form MailerLite component
 
 www: https://www.mailerlite.com/
