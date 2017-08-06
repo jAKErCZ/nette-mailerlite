@@ -14,7 +14,7 @@ use Nette\DI\CompilerExtension;
  */
 class Extension extends CompilerExtension
 {
-    /** @var array vychozi hodnoty */
+    /** @var array default values */
     private $defaults = [
         'api' => null,
     ];
@@ -28,6 +28,7 @@ class Extension extends CompilerExtension
         $builder = $this->getContainerBuilder();
         $config = $this->validateConfig($this->defaults);
 
+        // define form
         $builder->addDefinition($this->prefix('default'))
             ->setClass(MailerLiteForm::class, [$config]);
     }
