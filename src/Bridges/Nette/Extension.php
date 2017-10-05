@@ -30,6 +30,6 @@ class Extension extends CompilerExtension
 
         // define form
         $builder->addDefinition($this->prefix('default'))
-            ->setClass(MailerLiteForm::class, [$config]);
+            ->setFactory(MailerLiteForm::class, [$config]);
     }
 }
