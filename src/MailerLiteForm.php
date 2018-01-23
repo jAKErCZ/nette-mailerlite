@@ -20,7 +20,7 @@ class MailerLiteForm extends Control
     private $groupsApi, $groupId;
     /** @var string template path */
     private $templatePath;
-    /** @var Translator class */
+    /** @var ITranslator class */
     private $translator;
     /** @var callback method */
     public $onSuccess, $onError;
@@ -95,9 +95,10 @@ class MailerLiteForm extends Control
      */
     public function render($groupId)
     {
+        $template = $this->getTemplate();
+
         $this->groupId = $groupId;
 
-        $template = $this->getTemplate();
         $template->setTranslator($this->translator);
         $template->setFile($this->templatePath);
         $template->render();
