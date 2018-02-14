@@ -17,6 +17,7 @@ class Extension extends CompilerExtension
 {
     /** @var array default values */
     private $defaults = [
+        'autowired'     => null,
         'api'           => null,
         'formContainer' => FormContainer::class,
     ];
@@ -37,5 +38,14 @@ class Extension extends CompilerExtension
         // define form
         $builder->addDefinition($this->prefix('default'))
             ->setFactory(MailerLiteForm::class, [$config['api'], $formContainer]);
+
+        // if define autowired then set value
+        if (isset($config['autowired'])) {
+            $builder->getDefinition($this->prefix('default'))
+                ->setAutowired($config['autowired']);
+
+            $builder->getDefinition($this->prefix('form'))
+                ->setAutowired($config['autowired']);
+        }
     }
 }
