@@ -30,7 +30,7 @@ neon configure:
 # mailer lite
 mailerLite:
     api: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxy
-#   formContainer: FormContainer
+#   formContainer: MailerLite\FormContainer
 ```
 
 neon configure extension:
