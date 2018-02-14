@@ -1,7 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MailerLite;
 
+use GeneralForm\IFormContainer;
+use GeneralForm\ITemplatePath;
 use Nette\Application\UI\Form;
 use Nette\Localization\ITranslator;
 use Nette\Application\UI\Control;
@@ -14,13 +16,15 @@ use MailerLiteApi\MailerLite;
  * @author  geniv
  * @package MailerLite
  */
-class MailerLiteForm extends Control
+class MailerLiteForm extends Control implements ITemplatePath
 {
-    /** @var MailerLiteForm */
+    /** @var MailerLite */
     private $groupsApi, $groupId;
-    /** @var string template path */
+    /** @var string */
     private $templatePath;
-    /** @var ITranslator class */
+    /** @var IFormContainer */
+    private $formContainer;
+    /** @var ITranslator */
     private $translator;
     /** @var callback method */
     public $onSuccess, $onError;
@@ -29,17 +33,20 @@ class MailerLiteForm extends Control
     /**
      * MailerLiteForm constructor.
      *
-     * @param array            $parameters
+     * @param string           $api
+     * @param IFormContainer   $formContainer
      * @param ITranslator|null $translator
+     * @throws \MailerLiteApi\Exceptions\MailerLiteSdkException
      */
-    public function __construct(array $parameters, ITranslator $translator = null)
+    public function __construct(string $api, IFormContainer $formContainer, ITranslator $translator = null)
     {
         parent::__construct();
 
+        $this->groupsApi = (new MailerLite($api))->groups();    // init MailerLite api
+        $this->formContainer = $formContainer;
         $this->translator = $translator;
-        $this->templatePath = __DIR__ . '/MailerLiteForm.latte';    // implicit path
 
-        $this->groupsApi = (new MailerLite($parameters['api']))->groups();
+        $this->templatePath = __DIR__ . '/MailerLiteForm.latte';    // set path
     }
 
 
@@ -47,31 +54,25 @@ class MailerLiteForm extends Control
      * Set template path.
      *
      * @param string $path
-     * @return $this
      */
-    public function setTemplatePath($path)
+    public function setTemplatePath(string $path)
     {
         $this->templatePath = $path;
-        return $this;
     }
 
 
     /**
-     * Create component newsletter form with success callback.
+     * Create component form.
      *
      * @param $name
      * @return Form
      */
-    protected function createComponentForm($name)
+    protected function createComponentForm(string $name): Form
     {
         $form = new Form($this, $name);
         $form->setTranslator($this->translator);
-        $form->addText('email', 'mailer-lite-form-email')
-            ->setRequired('mailer-lite-form-email-required')
-            ->addRule(Form::EMAIL, 'mailer-lite-form-email-rule-email')
-            ->setAttribute('autocomplete', 'off');
         $form->addHidden('groupId', $this->groupId);    // prenaseni id skupiny pro mailer lite
-        $form->addSubmit('send', 'mailer-lite-form-send');
+        $this->formContainer->getForm($form);
 
         $form->onSuccess[] = function (Form $form, array $values) {
             $subscriber = [
@@ -89,11 +90,11 @@ class MailerLiteForm extends Control
 
 
     /**
-     * Render default.
+     * Render.
      *
-     * @param $groupId
+     * @param string $groupId
      */
-    public function render($groupId)
+    public function render(string $groupId)
     {
         $template = $this->getTemplate();
 
