@@ -29,6 +29,7 @@ neon configure:
 ```neon
 # mailer lite
 mailerLite:
+#   autowired: false
     api: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxy
 #   formContainer: MailerLite\FormContainer
 ```
