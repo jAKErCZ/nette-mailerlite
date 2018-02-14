@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MailerLite\Bridges\Nette;
 
+use MailerLite\FormContainer;
 use MailerLite\MailerLiteForm;
 use Nette\DI\CompilerExtension;
 
@@ -16,7 +17,8 @@ class Extension extends CompilerExtension
 {
     /** @var array default values */
     private $defaults = [
-        'api' => null,
+        'api'           => null,
+        'formContainer' => FormContainer::class,
     ];
 
 
@@ -28,8 +30,12 @@ class Extension extends CompilerExtension
         $builder = $this->getContainerBuilder();
         $config = $this->validateConfig($this->defaults);
 
+        // define form container
+        $formContainer = $builder->addDefinition($this->prefix('form'))
+            ->setFactory($config['formContainer']);
+
         // define form
         $builder->addDefinition($this->prefix('default'))
-            ->setFactory(MailerLiteForm::class, [$config]);
+            ->setFactory(MailerLiteForm::class, [$config['api'], $formContainer]);
     }
 }

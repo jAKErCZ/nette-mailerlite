@@ -1,6 +1,5 @@
 MailerLite
 ==========
-MailerLite newsletter form component
 
 www: https://www.mailerlite.com/
 
@@ -22,7 +21,8 @@ or
 require:
 ```json
 "php": ">=5.6.0",
-"mailerlite/mailerlite-api-v2-php-sdk": ">=0.2.1"
+"mailerlite/mailerlite-api-v2-php-sdk": ">=0.2.1",
+"geniv/nette-general-form": ">=1.0.0"
 ```
 
 neon configure:
@@ -30,6 +30,7 @@ neon configure:
 # mailer lite
 mailerLite:
     api: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxy
+#   formContainer: FormContainer
 ```
 
 neon configure extension:
@@ -40,8 +41,6 @@ extensions:
 
 usage:
 ```php
-use MailerLite\MailerLiteForm;
-
 protected function createComponentMailerLiteForm(MailerLiteForm $mailerLiteForm)
 {
     //$mailerLiteForm->setTemplatePath(__DIR__ . '/templates/MailerLiteForm.latte');
