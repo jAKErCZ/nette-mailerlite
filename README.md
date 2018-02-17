@@ -20,7 +20,7 @@ or
 
 require:
 ```json
-"php": ">=5.6.0",
+"php": ">=7.0.0",
 "mailerlite/mailerlite-api-v2-php-sdk": ">=0.2.1",
 "geniv/nette-general-form": ">=1.0.0"
 ```
@@ -29,7 +29,7 @@ neon configure:
 ```neon
 # mailer lite
 mailerLite:
-#   autowired: false
+#   autowired: true
     api: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxy
 #   formContainer: MailerLite\FormContainer
 ```
