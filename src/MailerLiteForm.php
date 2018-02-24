@@ -79,6 +79,12 @@ class MailerLiteForm extends Control implements ITemplatePath
                 'email' => $values['email'],
             ];
             $addedSubscriber = $this->groupsApi->addSubscriber($values['groupId'], $subscriber); // returns added subscriber
+
+            if ($this->presenter->isAjax()) {
+                $this->redrawControl('wrapper');
+                $form->reset();
+            }
+
             if (!isset($addedSubscriber->error)) {
                 $this->onSuccess($values);
             } else {
