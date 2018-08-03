@@ -76,6 +76,7 @@ class MailerLiteForm extends Control implements ITemplatePath
 
         $form->onSuccess[] = function (Form $form, array $values) {
             $subscriber = [
+                'name'  => null,
                 'email' => $values['email'],
             ];
             $addedSubscriber = $this->groupsApi->addSubscriber($values['groupId'], $subscriber); // returns added subscriber
@@ -88,6 +89,7 @@ class MailerLiteForm extends Control implements ITemplatePath
             if (!isset($addedSubscriber->error)) {
                 $this->onSuccess($values);
             } else {
+                // stdClass: error->message, error->code
                 $this->onError($addedSubscriber->error);
             }
         };
