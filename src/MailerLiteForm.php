@@ -9,43 +9,37 @@ use Nette\Localization\ITranslator;
 use Nette\Application\UI\Control;
 use MailerLiteApi\MailerLite;
 
-
 /**
  * Class MailerLiteForm
  *
- * @author  geniv
+ * @author  geniv, jakerzc
  * @package MailerLite
  */
 class MailerLiteForm extends Control implements ITemplatePath
 {
-    /** @var MailerLite */
-    private $groupsApi, $groupId;
-    /** @var string */
-    private $templatePath;
-    /** @var IFormContainer */
-    private $formContainer;
-    /** @var ITranslator */
-    private $translator;
-    /** @var callback method */
-    public $onSuccess, $onError;
+    private MailerLite $groupsApi, $groupId;
 
+    private string $templatePath;
+
+    private IFormContainer $formContainer;
+
+    private IFormContainer $translator;
+
+    public callback $onSuccess, $onError;
 
     /**
      * MailerLiteForm constructor.
      *
-     * @param string           $api
-     * @param IFormContainer   $formContainer
+     * @param string $api
+     * @param IFormContainer $formContainer
      * @param ITranslator|null $translator
      * @throws \MailerLiteApi\Exceptions\MailerLiteSdkException
      */
     public function __construct(string $api, IFormContainer $formContainer, ITranslator $translator = null)
     {
-        parent::__construct();
-
         $this->groupsApi = (new MailerLite($api))->groups();    // init MailerLite api
         $this->formContainer = $formContainer;
         $this->translator = $translator;
-
         $this->templatePath = __DIR__ . '/MailerLiteForm.latte';    // set path
     }
 
@@ -60,16 +54,24 @@ class MailerLiteForm extends Control implements ITemplatePath
         $this->templatePath = $path;
     }
 
+    /**
+     * Set groupID
+     *
+     * @param string $groupId
+     */
+    public function setGroupID(string $groupId)
+    {
+        $this->groupId = $groupId;
+    }
 
     /**
      * Create component form.
      *
-     * @param $name
      * @return Form
      */
-    protected function createComponentForm(string $name): Form
+    protected function createComponentForm(): Form
     {
-        $form = new Form($this, $name);
+        $form = new Form;
         $form->setTranslator($this->translator);
         $form->addHidden('groupId', $this->groupId);    // prenaseni id skupiny pro mailer lite
         $this->formContainer->getForm($form);
@@ -97,15 +99,10 @@ class MailerLiteForm extends Control implements ITemplatePath
 
     /**
      * Render.
-     *
-     * @param string $groupId
      */
-    public function render(string $groupId)
+    public function render()
     {
         $template = $this->getTemplate();
-
-        $this->groupId = $groupId;
-
         $template->setTranslator($this->translator);
         $template->setFile($this->templatePath);
         $template->render();

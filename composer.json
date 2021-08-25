@@ -1,21 +1,26 @@
 {
-  "name": "geniv/nette-mailerlite",
+  "name": "jakercz/nette-mailerlite",
   "description": "MailerLite newsletter component for Nette Framework",
   "keywords": [
     "nette",
     "newsletter",
     "mailerlite",
-    "geniv"
+    "geniv",
+    "jakercz"
   ],
   "license": "MIT",
   "authors": [
     {
       "name": "Radek Fryšták",
       "email": "geniv.radek@gmail.com"
+    },
+    {
+      "name": "Dominik Korčák",
+      "email": "korcak@ratinho.cz"
     }
   ],
   "require": {
-    "php": ">=7.0.0",
+    "php": ">=7.4",
     "mailerlite/mailerlite-api-v2-php-sdk": ">=0.2.1",
     "geniv/nette-general-form": ">=1.0.0"
   },

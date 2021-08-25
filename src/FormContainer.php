@@ -17,7 +17,6 @@ class FormContainer implements IFormContainer
 {
     use SmartObject;
 
-
     /**
      * Get form.
      *
@@ -25,10 +24,11 @@ class FormContainer implements IFormContainer
      */
     public function getForm(Form $form)
     {
-        $form->addText('email', 'mailer-lite-form-email')
-            ->setRequired('mailer-lite-form-email-required')
-            ->addRule(Form::EMAIL, 'mailer-lite-form-email-rule-email')
+        $translator = $form->getTranslator();
+        $form->addText('email', $translator->translate('common.mailerLite.email'))
+            ->setRequired($translator->translate('common.mailerLite.emailRequired'))
+            ->addRule(Form::EMAIL, $translator->translate('common.mailerLite.emailRule'))
             ->setAttribute('autocomplete', 'off');
-        $form->addSubmit('send', 'mailer-lite-form-send');
+        $form->addSubmit('send', $translator->translate('common.mailerLite.send'));
     }
 }
