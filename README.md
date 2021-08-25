@@ -34,6 +34,16 @@ neon configure extension:
 extensions:
     mailerLite: MailerLite\Bridges\Nette\Extension
 ```
+translate:
+
+file: common.cs_CZ.neon
+```json
+mailerLite:
+    email: "E-mail"
+    emailRequired: "E-mail je povinný."
+    emailRule: "E-mail není validní."
+    send: "Odebírat"
+```
 
 usage:
 
