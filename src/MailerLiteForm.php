@@ -17,15 +17,16 @@ use MailerLiteApi\MailerLite;
  */
 class MailerLiteForm extends Control implements ITemplatePath
 {
-    private MailerLite $groupsApi, $groupId;
-
-    private string $templatePath;
-
-    private IFormContainer $formContainer;
-
-    private IFormContainer $translator;
-
-    public callback $onSuccess, $onError;
+    /** @var MailerLite */
+    private $groupsApi, $groupId;
+    /** @var string */
+    private $templatePath;
+    /** @var IFormContainer */
+    private $formContainer;
+    /** @var ITranslator */
+    private $translator;
+    /** @var callback method */
+    public $onSuccess, $onError;
 
     /**
      * MailerLiteForm constructor.
