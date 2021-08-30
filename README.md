@@ -70,8 +70,30 @@ protected function createComponentMailerLiteForm(): MailerLiteForm
   return $mailerLiteForm;
 }
 ```
-
 usage:
 ```latte
 {control mailerLiteForm}
+```
+
+usage API out of form:
+
+```php
+use GeneralForm\IFormContainer;
+use MailerLite\MailerLiteForm;
+
+#[\Nette\DI\Attributes\Inject]
+public IFormContainer $formContainer;
+
+
+ public function succeededForm(Form $form, ArrayHash $values)
+ {
+     $mailerLiteForm = new MailerLiteForm('SET API KEY', $this->formContainer, $this->translator);
+     
+     if ($values->newsletter == 1){
+         $subscriber = [
+           'email' => $values->email,
+         ];
+         $mailerLiteForm->getGroupApi()->addSubscriber('SET GROUP ID', $subscriber);
+     }
+ }
 ```

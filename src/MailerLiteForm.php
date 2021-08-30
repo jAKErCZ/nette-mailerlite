@@ -66,6 +66,16 @@ class MailerLiteForm extends Control implements ITemplatePath
     }
 
     /**
+     * Return GroupApi
+     *
+     * @return \MailerLiteApi\MailerLite
+     */
+    public function getGroupApi(): MailerLite
+    {
+        return $this->groupsApi;
+    }
+
+    /**
      * Create component form.
      *
      * @return Form
