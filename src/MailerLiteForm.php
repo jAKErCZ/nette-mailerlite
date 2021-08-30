@@ -68,9 +68,8 @@ class MailerLiteForm extends Control implements ITemplatePath
     /**
      * Return GroupApi
      *
-     * @return \MailerLiteApi\Api\Groups
      */
-    public function getGroupApi(): Groups
+    public function getGroupApi()
     {
         return $this->groupsApi;
     }
