@@ -21,7 +21,8 @@
   ],
   "require": {
     "php": ">=7.4",
-    "mailerlite/mailerlite-api-v2-php-sdk": ">=0.2.1"
+    "mailerlite/mailerlite-api-v2-php-sdk": ">=0.2.1",
+    "geniv/nette-general-form": ">=1.0.0"
   },
   "autoload": {
     "classmap": [
