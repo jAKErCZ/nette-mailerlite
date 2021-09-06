@@ -2,12 +2,11 @@
 
 namespace MailerLite;
 
-use GeneralForm\IFormContainer;
 use GeneralForm\ITemplatePath;
 use Nette\Application\UI\Form;
-use Nette\Localization\ITranslator;
 use Nette\Application\UI\Control;
 use MailerLiteApi\MailerLite;
+use Nette\Localization\Translator;
 
 /**
  * Class MailerLiteForm
@@ -21,9 +20,7 @@ class MailerLiteForm extends Control implements ITemplatePath
     private $groupsApi, $groupId;
     /** @var string */
     private $templatePath;
-    /** @var IFormContainer */
-    private $formContainer;
-    /** @var ITranslator */
+    /** @var Translator */
     private $translator;
     /** @var callback method */
     public $onSuccess, $onError;
@@ -32,14 +29,12 @@ class MailerLiteForm extends Control implements ITemplatePath
      * MailerLiteForm constructor.
      *
      * @param string $api
-     * @param IFormContainer $formContainer
-     * @param ITranslator|null $translator
+     * @param Translator $translator
      * @throws \MailerLiteApi\Exceptions\MailerLiteSdkException
      */
-    public function __construct(string $api, IFormContainer $formContainer, ITranslator $translator = null)
+    public function __construct(string $api, Translator $translator = null)
     {
         $this->groupsApi = (new MailerLite($api))->groups();    // init MailerLite api
-        $this->formContainer = $formContainer;
         $this->translator = $translator;
         $this->templatePath = __DIR__ . '/MailerLiteForm.latte';    // set path
     }
@@ -84,7 +79,11 @@ class MailerLiteForm extends Control implements ITemplatePath
         $form = new Form;
         $form->setTranslator($this->translator);
         $form->addHidden('groupId', $this->groupId);    // prenaseni id skupiny pro mailer lite
-        $this->formContainer->getForm($form);
+        $form->addText('email', $this->translator->translate('common.mailerLite.email'))
+            ->setRequired($this->translator->translate('common.mailerLite.emailRequired'))
+            ->addRule(Form::EMAIL, $this->translator->translate('common.mailerLite.emailRule'))
+            ->setAttribute('autocomplete', 'off');
+        $form->addSubmit('send', $this->translator->translate('common.mailerLite.send'));
 
         $form->onSuccess[] = function (Form $form, array $values) {
             $subscriber = [
@@ -105,7 +104,6 @@ class MailerLiteForm extends Control implements ITemplatePath
         };
         return $form;
     }
-
 
     /**
      * Render.

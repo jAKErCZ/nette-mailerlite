@@ -24,8 +24,7 @@ require:
 
 ```json
 "php": ">=7.0.0",
-"mailerlite/mailerlite-api-v2-php-sdk": ">=0.2.1",
-"geniv/nette-general-form": ">=1.0.0"
+"mailerlite/mailerlite-api-v2-php-sdk": ">=0.2.1"
 ```
 
 neon configure extension:
@@ -48,15 +47,11 @@ mailerLite:
 usage:
 
 ```php
-use GeneralForm\IFormContainer;
 use MailerLite\MailerLiteForm;
-
-#[\Nette\DI\Attributes\Inject]
-public IFormContainer $formContainer;
 
 protected function createComponentMailerLiteForm(): MailerLiteForm
 {
-  $mailerLiteForm = new MailerLiteForm('SET API KEY', $this->formContainer, $this->translator);
+  $mailerLiteForm = new MailerLiteForm('SET API KEY', $this->translator);
   $mailerLiteForm->setGroupID('SET GROUP ID');
   //$mailerLiteForm->setTemplatePath(__DIR__ . '/MailerLiteForm.latte');
   $mailerLiteForm->onSuccess[] = function (array $values) {
@@ -78,16 +73,12 @@ usage:
 usage API out of form:
 
 ```php
-use GeneralForm\IFormContainer;
 use MailerLite\MailerLiteForm;
-
-#[\Nette\DI\Attributes\Inject]
-public IFormContainer $formContainer;
 
 
  public function succeededForm(Form $form, ArrayHash $values)
  {
-     $mailerLiteForm = new MailerLiteForm('SET API KEY', $this->formContainer, $this->translator);
+     $mailerLiteForm = new MailerLiteForm('SET API KEY', $this->translator);
      
      if ($values->newsletter == 1){
          $subscriber = [
