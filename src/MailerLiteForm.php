@@ -17,7 +17,7 @@ use Nette\Localization\Translator;
 class MailerLiteForm extends Control implements ITemplatePath
 {
     /** @var MailerLite */
-    private $groupsApi, $groupId;
+    private $groupsApi, $groupId, $isAjax;
     /** @var string */
     private $templatePath;
     /** @var Translator */
@@ -32,9 +32,10 @@ class MailerLiteForm extends Control implements ITemplatePath
      * @param Translator $translator
      * @throws \MailerLiteApi\Exceptions\MailerLiteSdkException
      */
-    public function __construct(string $api, Translator $translator = null)
+    public function __construct(string $api, Translator $translator = null, $isAjax = false)
     {
         $this->groupsApi = (new MailerLite($api))->groups();    // init MailerLite api
+        $this->isAjax = $isAjax;
         $this->translator = $translator;
         $this->templatePath = __DIR__ . '/MailerLiteForm.latte';    // set path
     }
@@ -78,6 +79,9 @@ class MailerLiteForm extends Control implements ITemplatePath
     {
         $form = new Form;
         $form->setTranslator($this->translator);
+        if ($this->isAjax == true){
+            $form->getElementPrototype()->class('ajax');
+        }
         $form->addHidden('groupId', $this->groupId);    // prenaseni id skupiny pro mailer lite
         $form->addText('email', $this->translator->translate('common.mailerLite.email'))
             ->setRequired($this->translator->translate('common.mailerLite.emailRequired'))

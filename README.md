@@ -68,6 +68,16 @@ protected function createComponentMailerLiteForm(): MailerLiteForm
 usage:
 ```latte
 {control mailerLiteForm}
+
+{block scripts}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/nette.ajax.js@2.3.0/nette.ajax.js"></script>
+    <script type="text/javascript" src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+    <script>
+        $(function () {
+            $.nette.init();
+        });
+    </script>
+{/block}
 ```
 
 usage API out of form:
