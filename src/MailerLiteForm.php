@@ -78,16 +78,18 @@ class MailerLiteForm extends Control implements ITemplatePath
     protected function createComponentForm(): Form
     {
         $form = new Form;
-        $form->setTranslator($this->translator);
+        if ($this->translator == true){
+            $form->setTranslator($this->translator);
+        }
         if ($this->isAjax == true){
             $form->getElementPrototype()->class('ajax');
         }
         $form->addHidden('groupId', $this->groupId);    // prenaseni id skupiny pro mailer lite
-        $form->addText('email', $this->translator->translate('common.mailerLite.email'))
-            ->setRequired($this->translator->translate('common.mailerLite.emailRequired'))
-            ->addRule(Form::EMAIL, $this->translator->translate('common.mailerLite.emailRule'))
+        $form->addText('email', $this->translator ? $this->translator->translate('common.mailerLite.email') : 'Email')
+            ->setRequired($this->translator ? $this->translator->translate('common.mailerLite.emailRequired') : 'Email is required.')
+            ->addRule(Form::EMAIL, $this->translator ? $this->translator->translate('common.mailerLite.emailRule') : 'Email is not valid.')
             ->setAttribute('autocomplete', 'off');
-        $form->addSubmit('send', $this->translator->translate('common.mailerLite.send'));
+        $form->addSubmit('send', $this->translator ? $this->translator->translate('common.mailerLite.send') : 'Subscribe');
 
         $form->onSuccess[] = function (Form $form, array $values) {
             $subscriber = [
